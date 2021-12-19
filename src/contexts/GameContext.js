@@ -61,7 +61,6 @@ export const GameProvider = ({ children }) => {
 
   const mergeBoards = (pieceBoard, boardBoard) => {
     // Deep copy of boardBoard
-    // let mergedBoard = JSON.parse(JSON.stringify(boardBoard));
     let mergedBoard = boardBoard.map((row) => [...row]);
     for (let i = 0; i < settings.rows; i++) {
       for (let j = 0; j < settings.columns; j++) {
@@ -108,7 +107,6 @@ export const GameProvider = ({ children }) => {
   }, [counter]);
 
   const handleKeyPress = (e) => {
-    // setKey(e.key);
     switch (e.key) {
       case "ArrowLeft":
       case "Left":

@@ -3,19 +3,19 @@ import GameContext from "../contexts/GameContext";
 import TimeContext from "../contexts/TimeContext";
 
 const Board = () => {
-  const { board, setBoard } = useContext(GameContext);
+  const { gameBoard, setGameBoard } = useContext(GameContext);
 
   const { counter } = useContext(TimeContext);
 
   let table = "";
 
   // Cria o separador de linha com o mesmo numero das colunas no board
-  let separator = "+" + "---+".repeat(board[0].length) + "\n";
+  let separator = "+" + "---+".repeat(gameBoard[0].length) + "\n";
 
   table += separator;
-  for (let i = 0; i < board.length; i++) {
-    for (let j = 0; j < board[i].length; j++) {
-      let element = board[i][j] ? "#" : "-";
+  for (let i = 0; i < gameBoard.length; i++) {
+    for (let j = 0; j < gameBoard[i].length; j++) {
+      let element = gameBoard[i][j] ? "#" : "-";
       table += `| ${element} `;
     }
     table += `|\n${separator}`;

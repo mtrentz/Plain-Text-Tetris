@@ -1,27 +1,98 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import Piece from "../tetris/Piece";
 import TimeContext from "./TimeContext";
+import PieceContext from "./PieceContext";
+import BoardContext from "./BoardContext";
+import settings from "../tetris/settings";
 
 const GameContext = createContext();
 
 export default GameContext;
-let piece = new Piece(18, 10);
 
 export const GameProvider = ({ children }) => {
-  // let piece;
+  const touchOtherPieceVertically = (b, p) => {
+    for (let i = settings.rows - 1; i >= 0; i--) {
+      for (let j = 0; j < settings.columns; j++) {
+        if (p.board[i][j] > 0) {
+          if (b.board[i + 1][j] > 0) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
 
-  useEffect(() => {
-    console.log("yo");
-  }, []);
+  const touchOtherPieceHorizontally = (b, p) => {
+    for (let i = 0; i < settings.rows; i++) {
+      for (let j = 0; j < settings.columns; j++) {
+        if (p.board[i][j] > 0) {
+          if (j - 1 < 0 || j + 1 > settings.columns - 1) {
+            continue;
+          }
+          if (b.board[i][j + 1] > 0 || b.board[i][j - 1] > 0) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
 
-  // console.log("yo");
-  var [board, setBoard] = useState(piece.board);
+  const movePieceRight = () => {
+    if (touchOtherPieceHorizontally(board, piece)) {
+      return;
+    }
+    // TODO: Quero colocar o setGameBoard aqui
+    piece.moveRight();
+    updateGameBoard();
+  };
+
+  const movePieceLeft = () => {
+    if (touchOtherPieceHorizontally(board, piece)) {
+      return;
+    }
+    // TODO: Quero colocar o setGameBoard aqui
+    piece.moveLeft();
+    updateGameBoard();
+  };
+
+  const mergeBoards = (pieceBoard, boardBoard) => {
+    // Deep copy of boardBoard
+    let mergedBoard = JSON.parse(JSON.stringify(boardBoard));
+    for (let i = 0; i < settings.rows; i++) {
+      for (let j = 0; j < settings.columns; j++) {
+        if (pieceBoard[i][j] > 0) {
+          mergedBoard[i][j] = pieceBoard[i][j];
+        }
+      }
+    }
+    return mergedBoard;
+  };
+
+  const updateGameBoard = () => {
+    setGameBoard(mergeBoards(piece.board, board.board));
+  };
+
+  const { piece, createNewPiece } = useContext(PieceContext);
+  const { board } = useContext(BoardContext);
 
   const { counter } = useContext(TimeContext);
 
+  var [gameBoard, setGameBoard] = useState(piece.board);
+
+  // Runs every "frame"
   useEffect(() => {
-    piece.applyGravity();
-    setBoard(piece.board);
+    if (piece.touchFloor() || touchOtherPieceVertically(board, piece)) {
+      // Put piece into actual board
+      board.consume(piece);
+      // Create new piece
+      createNewPiece();
+    } else {
+      piece.applyGravity();
+    }
+
+    updateGameBoard();
   }, [counter]);
 
   const [key, setKey] = useState("");
@@ -29,8 +100,11 @@ export const GameProvider = ({ children }) => {
   const handleKeyPress = (e) => {
     // setKey(e.key);
     switch (e.key) {
-      case "w":
-        // setBoard(upArrow);
+      case "a":
+        movePieceLeft();
+        break;
+      case "d":
+        movePieceRight();
         break;
       default:
         break;
@@ -39,8 +113,8 @@ export const GameProvider = ({ children }) => {
 
   // create contextData object
   const contextData = {
-    board,
-    setBoard,
+    gameBoard,
+    setGameBoard,
     handleKeyPress,
   };
 

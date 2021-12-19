@@ -9,9 +9,9 @@ export const TimeProvider = ({ children }) => {
 
   // const [counter, setCounter] = React.useState(60);
 
-  // Third Attempts
+  // TODO: Usar o settings pra pegar o '500' ali que é o tempo. Achar um jeito de alterar ele pro tempo rodar mais rapido
   useEffect(() => {
-    const timer = setInterval(() => setCounter(counter + 1), 500);
+    const timer = setInterval(() => setCounter(counter + 1), 250);
     return () => clearInterval(timer);
   }, [counter]);
 

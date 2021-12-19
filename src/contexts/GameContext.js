@@ -102,12 +102,18 @@ export const GameProvider = ({ children }) => {
   const handleKeyPress = (e) => {
     // setKey(e.key);
     switch (e.key) {
+      case "ArrowLeft":
+      case "Left":
       case "a":
         movePieceLeft();
         break;
+      case "ArrowRight":
+      case "Right":
       case "d":
         movePieceRight();
         break;
+      case "ArrowDown":
+      case "Down":
       case "s":
         setFast();
         break;
@@ -118,6 +124,8 @@ export const GameProvider = ({ children }) => {
 
   const handleKeyRelease = (e) => {
     switch (e.key) {
+      case "ArrowDown":
+      case "Down":
       case "s":
         setNormal();
         break;

@@ -6,7 +6,7 @@ const settings = {
   // Speed of the game in milliseconds.
   speed: 500,
   // Speed when sped-up in milliseconds.
-  sped_up_speed: 250,
+  sped_up_speed: 100,
 };
 
 export default settings;

@@ -42,7 +42,6 @@ export const GameProvider = ({ children }) => {
     if (touchOtherPieceHorizontally(board, piece)) {
       return;
     }
-    // TODO: Quero colocar o setGameBoard aqui
     piece.moveRight();
     updateGameBoard();
   };
@@ -51,8 +50,12 @@ export const GameProvider = ({ children }) => {
     if (touchOtherPieceHorizontally(board, piece)) {
       return;
     }
-    // TODO: Quero colocar o setGameBoard aqui
     piece.moveLeft();
+    updateGameBoard();
+  };
+
+  const rotatePiece = () => {
+    piece.applyRotation();
     updateGameBoard();
   };
 
@@ -76,28 +79,33 @@ export const GameProvider = ({ children }) => {
 
   const { piece, createNewPiece } = useContext(PieceContext);
   const { board } = useContext(BoardContext);
-
   const { counter, speed, setFast, setNormal } = useContext(TimeContext);
-
-  var [gameBoard, setGameBoard] = useState(piece.board);
+  const [gameBoard, setGameBoard] = useState(piece.board);
+  const [score, setScore] = useState(0);
+  const [key, setKey] = useState("");
 
   // Runs every "frame"
   useEffect(() => {
+    console.log(score);
     if (piece.touchFloor() || touchOtherPieceVertically(board, piece)) {
       // Put piece into actual board
       board.consume(piece);
+
+      // This function clear lines if needs to, and return score if so
+      let scored = board.getScore();
+
+      if (scored) {
+        setScore(score + scored);
+        updateGameBoard();
+      }
+
       // Create new piece
       createNewPiece();
     } else {
       piece.applyGravity();
     }
-
     updateGameBoard();
-
-    // setNormal();
   }, [counter]);
-
-  const [key, setKey] = useState("");
 
   const handleKeyPress = (e) => {
     // setKey(e.key);
@@ -116,6 +124,11 @@ export const GameProvider = ({ children }) => {
       case "Down":
       case "s":
         setFast();
+        break;
+      case "ArrowUp":
+      case "Up":
+      case "w":
+        rotatePiece();
         break;
       default:
         break;
@@ -140,6 +153,7 @@ export const GameProvider = ({ children }) => {
     setGameBoard,
     handleKeyPress,
     handleKeyRelease,
+    score,
   };
 
   return (

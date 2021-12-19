@@ -30,7 +30,7 @@ class Board {
   }
 
   deleteLine(i) {
-    let newTopLine = new Array(this.boardRows).fill(0);
+    let newTopLine = new Array(this.boardCols).fill(0);
     let aboveLines = this.board.slice(0, i);
     let updatedBoard;
     if (i + 1 < this.boardRows) {
@@ -51,6 +51,7 @@ class Board {
         score++;
       }
     }
+
     return score;
   }
 }

@@ -3,7 +3,7 @@ import GameContext from "../contexts/GameContext";
 import TimeContext from "../contexts/TimeContext";
 
 const Board = () => {
-  const { gameBoard, setGameBoard } = useContext(GameContext);
+  const { gameBoard, score } = useContext(GameContext);
 
   const { counter } = useContext(TimeContext);
 
@@ -25,10 +25,11 @@ const Board = () => {
 
   return (
     <div>
+      <p> Score - {score}</p>
       <pre className="whitespace-pre-wrap leading-3 tracking-wider">
         {table}
       </pre>
-      <p> - {counter}</p>
+      <p> Frame count - {counter}</p>
     </div>
   );
 };

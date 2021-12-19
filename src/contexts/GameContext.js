@@ -81,7 +81,8 @@ export const GameProvider = ({ children }) => {
   const { counter, speed, setFast, setNormal } = useContext(TimeContext);
   const [gameBoard, setGameBoard] = useState(piece.board);
   const [score, setScore] = useState(0);
-  const [key, setKey] = useState("");
+  const [pieceLifeSpan, setPieceLifeSpan] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
   // Runs every "frame"
   useEffect(() => {
@@ -93,15 +94,24 @@ export const GameProvider = ({ children }) => {
       // This function clear lines if needs to, and return score if so
       let scored = board.getScore();
 
+      // Add score to counter
       if (scored) {
         setScore(score + scored);
         updateGameBoard();
       }
 
+      // If the the lifespan of the piece is zero, means it "died" as it spawned. So its game over.
+      if (pieceLifeSpan === 0) {
+        setGameOver(true);
+      }
+
       // Create new piece
       createNewPiece();
+      // Set piece lifespan to 0
+      setPieceLifeSpan(0);
     } else {
       piece.applyGravity();
+      setPieceLifeSpan(pieceLifeSpan + 1);
     }
     updateGameBoard();
   }, [counter]);
@@ -152,6 +162,7 @@ export const GameProvider = ({ children }) => {
     handleKeyPress,
     handleKeyRelease,
     score,
+    gameOver,
   };
 
   return (

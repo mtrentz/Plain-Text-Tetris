@@ -1,5 +1,4 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import Piece from "../tetris/Piece";
 import TimeContext from "./TimeContext";
 import PieceContext from "./PieceContext";
 import BoardContext from "./BoardContext";
@@ -59,7 +58,8 @@ export const GameProvider = ({ children }) => {
 
   const mergeBoards = (pieceBoard, boardBoard) => {
     // Deep copy of boardBoard
-    let mergedBoard = JSON.parse(JSON.stringify(boardBoard));
+    // let mergedBoard = JSON.parse(JSON.stringify(boardBoard));
+    let mergedBoard = boardBoard.map((row) => [...row]);
     for (let i = 0; i < settings.rows; i++) {
       for (let j = 0; j < settings.columns; j++) {
         if (pieceBoard[i][j] > 0) {
@@ -77,7 +77,7 @@ export const GameProvider = ({ children }) => {
   const { piece, createNewPiece } = useContext(PieceContext);
   const { board } = useContext(BoardContext);
 
-  const { counter } = useContext(TimeContext);
+  const { counter, speed, setFast, setNormal } = useContext(TimeContext);
 
   var [gameBoard, setGameBoard] = useState(piece.board);
 
@@ -93,6 +93,8 @@ export const GameProvider = ({ children }) => {
     }
 
     updateGameBoard();
+
+    // setNormal();
   }, [counter]);
 
   const [key, setKey] = useState("");
@@ -106,6 +108,19 @@ export const GameProvider = ({ children }) => {
       case "d":
         movePieceRight();
         break;
+      case "s":
+        setFast();
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleKeyRelease = (e) => {
+    switch (e.key) {
+      case "s":
+        setNormal();
+        break;
       default:
         break;
     }
@@ -116,6 +131,7 @@ export const GameProvider = ({ children }) => {
     gameBoard,
     setGameBoard,
     handleKeyPress,
+    handleKeyRelease,
   };
 
   return (

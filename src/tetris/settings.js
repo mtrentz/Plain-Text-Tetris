@@ -4,9 +4,9 @@ const settings = {
   // The number of columns in the game board.
   columns: 10,
   // Speed of the game in milliseconds.
-  speed: 1000,
+  speed: 500,
   // Speed when sped-up in milliseconds.
-  sped_up_speed: 500,
+  sped_up_speed: 250,
 };
 
 export default settings;

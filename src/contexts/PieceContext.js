@@ -14,7 +14,6 @@ export const PieceProvider = ({ children }) => {
   const createNewPiece = () => {
     setPiece(new Piece(settings.rows, settings.columns));
   };
-  //   const applyGravity = () => {
 
   const contextData = {
     piece,

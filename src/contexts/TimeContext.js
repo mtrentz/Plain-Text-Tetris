@@ -9,8 +9,6 @@ export const TimeProvider = ({ children }) => {
   const [counter, setCounter] = useState(0);
   const [speed, setSpeed] = useState(settings.speed);
 
-  // const [counter, setCounter] = React.useState(60);
-
   const setFast = () => {
     setSpeed(settings.sped_up_speed);
   };
@@ -19,7 +17,6 @@ export const TimeProvider = ({ children }) => {
     setSpeed(settings.speed);
   };
 
-  // TODO: Usar o settings pra pegar o '500' ali que é o tempo. Achar um jeito de alterar ele pro tempo rodar mais rapido
   useEffect(() => {
     const timer = setInterval(() => setCounter(counter + 1), speed);
     return () => clearInterval(timer);

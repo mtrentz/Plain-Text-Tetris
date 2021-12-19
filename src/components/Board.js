@@ -11,6 +11,7 @@ const Board = () => {
   // Cria o separador de linha com o mesmo numero das colunas no board
   let separator = "+" + "---+".repeat(gameBoard[0].length) + "\n";
 
+  // TODO: Usar SPAN pra fazer as cores...
   table += separator;
   for (let i = 0; i < gameBoard.length; i++) {
     for (let j = 0; j < gameBoard[i].length; j++) {

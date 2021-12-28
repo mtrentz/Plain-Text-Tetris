@@ -17,6 +17,10 @@ export const TimeProvider = ({ children }) => {
     setSpeed(settings.normal_speed);
   };
 
+  const forceFrameSkip = () => {
+    setCounter(counter + 1);
+  };
+
   useEffect(() => {
     const timer = setInterval(() => setCounter(counter + 1), speed);
     return () => clearInterval(timer);
@@ -27,6 +31,7 @@ export const TimeProvider = ({ children }) => {
     speed,
     setFast,
     setNormal,
+    forceFrameSkip,
   };
 
   return (

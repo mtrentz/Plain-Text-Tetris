@@ -3,7 +3,8 @@ import GameContext from "./contexts/GameContext";
 import Board from "./components/Board";
 
 function App() {
-  const { handleKeyPress, handleKeyRelease } = useContext(GameContext);
+  const { handleKeyPress, handleKeyRelease, handleKeyDown } =
+    useContext(GameContext);
 
   return (
     <button

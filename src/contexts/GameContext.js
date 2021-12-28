@@ -111,6 +111,10 @@ export const GameProvider = ({ children }) => {
         }
       }
     }
+
+    // Here is where I "hide" the two extra rows at the top,
+    // that serves as space for the piece to spawn and rotate
+    mergedBoard = mergedBoard.slice(settings.extraRows, settings.rows);
     return mergedBoard;
   };
 
@@ -125,13 +129,15 @@ export const GameProvider = ({ children }) => {
 
   const { pieceBoard, createNewPieceBoard } = useContext(PieceBoardContext);
   const { gameBoard } = useContext(GameBoardContext);
-  const { counter, speed, setFast, setNormal } = useContext(TimeContext);
+  const { counter, speed, setFast, setNormal, forceFrameSkip } =
+    useContext(TimeContext);
   const [mergedBoard, setMergedBoard] = useState(
     mergeBoards(pieceBoard.board, gameBoard.board)
   );
   const [score, setScore] = useState(0);
   const [pieceLifeSpan, setPieceLifeSpan] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [frameSkipped, setFrameSkipped] = useState(false);
 
   // Runs every "frame"
   useEffect(() => {
@@ -183,6 +189,12 @@ export const GameProvider = ({ children }) => {
       case "Down":
       case "s":
         setFast();
+        // This is used to make sure that the piece moves down as soon as
+        // "move down" is trigerred, and makes the game feel more responsive
+        if (!frameSkipped) {
+          setFrameSkipped(true);
+          forceFrameSkip();
+        }
         break;
       case "ArrowUp":
       case "Up":
@@ -200,6 +212,7 @@ export const GameProvider = ({ children }) => {
       case "Down":
       case "s":
         setNormal();
+        setFrameSkipped(false);
         break;
       default:
         break;

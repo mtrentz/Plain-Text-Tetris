@@ -6,9 +6,9 @@ const settings = {
   // The number of columns in the game board.
   columns: 10,
   // Normal Speed
-  normal_speed: 500,
+  normal_speed: 400,
   // Fast Speed
-  fast_speed: 50,
+  fast_speed: 30,
 };
 
 export default settings;

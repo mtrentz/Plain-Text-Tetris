@@ -18,6 +18,8 @@ class PieceBoard extends Board {
     this.rotatesTwice = pieces[this.pieceNumber].rotatesTwice;
     // If this is marked, the piece will go back to its original configuration
     this.rotateBackToOriginal = false;
+
+    this.spawnPiece();
   }
 
   spawnPiece() {

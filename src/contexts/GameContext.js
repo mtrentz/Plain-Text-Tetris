@@ -44,7 +44,7 @@ export const GameProvider = ({ children }) => {
       return;
     }
     pieceBoard.moveRight();
-    updateMergedBoard();
+    updateMergedBoard(pieceBoard.board, gameBoard.board);
   };
 
   const movePieceLeft = () => {
@@ -52,7 +52,7 @@ export const GameProvider = ({ children }) => {
       return;
     }
     pieceBoard.moveLeft();
-    updateMergedBoard();
+    updateMergedBoard(pieceBoard.board, gameBoard.board);
   };
 
   const pieceCanRotate = () => {
@@ -95,49 +95,27 @@ export const GameProvider = ({ children }) => {
 
   const rotatePiece = () => {
     if (pieceCanRotate()) {
-      pieceBoard.applyRotation();
-      updateMergedBoard();
+      console.log("here");
+      pieceBoard.rotate();
+      updateMergedBoard(pieceBoard.board, gameBoard.board);
     }
   };
 
-  const mergeBoards = (gameBoard, pieceBoard) => {
-    let pieceBoardCount = gameBoard
-      .reduce(function (a, b) {
-        return a.concat(b);
-      }) // flatten array
-      .reduce(function (a, b) {
-        a = a >= 1 ? 1 : 0;
-        b = b >= 1 ? 1 : 0;
-        return a + b;
-      });
-
-    let gameBoardCount = pieceBoard
-      .reduce(function (a, b) {
-        return a.concat(b);
-      }) // flatten array
-      .reduce(function (a, b) {
-        a = a >= 1 ? 1 : 0;
-        b = b >= 1 ? 1 : 0;
-        return a + b;
-      });
-
-    console.log("Game:", gameBoardCount, " ", "Piece:", pieceBoardCount);
-    // console.log("Piece:", pieceBoardCount);
-
+  const mergeBoards = (gameBoardMatrix, pieceBoardMatrix) => {
     // Deep copy of boardBoard
-    let mergedBoard = gameBoard.map((row) => [...row]);
+    let mergedBoard = gameBoardMatrix.map((row) => [...row]);
     for (let i = 0; i < settings.rows; i++) {
       for (let j = 0; j < settings.columns; j++) {
-        if (pieceBoard[i][j] > 0) {
-          mergedBoard[i][j] = pieceBoard[i][j];
+        if (pieceBoardMatrix[i][j] > 0) {
+          mergedBoard[i][j] = pieceBoardMatrix[i][j];
         }
       }
     }
     return mergedBoard;
   };
 
-  const updateMergedBoard = () => {
-    setMergedBoard(mergeBoards(pieceBoard.board, gameBoard.board));
+  const updateMergedBoard = (pieceBoard, gameBoard) => {
+    setMergedBoard(mergeBoards(pieceBoard, gameBoard));
   };
 
   const generatePieceNumber = () => {
@@ -155,12 +133,6 @@ export const GameProvider = ({ children }) => {
   const [pieceLifeSpan, setPieceLifeSpan] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
-  // Runs once, "setup"
-  useEffect(() => {
-    pieceBoard.spawnPiece();
-    console.log("ran");
-  }, []);
-
   // Runs every "frame"
   useEffect(() => {
     if (
@@ -175,28 +147,24 @@ export const GameProvider = ({ children }) => {
 
       // Add score to counter
       if (scored) {
-        console.log("scored");
         setScore(score + scored);
-        updateMergedBoard();
+        updateMergedBoard(pieceBoard.board, gameBoard.board);
       }
 
       // If the the lifespan of the piece is zero, means it "died" as it spawned. So its game over.
       if (pieceLifeSpan === 0) {
-        console.log("game over");
         setGameOver(true);
       }
 
       // Create new piece
       createNewPieceBoard(generatePieceNumber());
-      console.log("created new piece");
       // Set piece lifespan to 0
       setPieceLifeSpan(0);
     } else {
-      // console.log(pieceBoard);
       pieceBoard.applyGravity();
       setPieceLifeSpan(pieceLifeSpan + 1);
     }
-    updateMergedBoard();
+    updateMergedBoard(pieceBoard.board, gameBoard.board);
   }, [counter]);
 
   const handleKeyPress = (e) => {

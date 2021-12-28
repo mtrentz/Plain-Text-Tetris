@@ -18,9 +18,7 @@ export const PieceBoardProvider = ({ children }) => {
   );
 
   const createNewPieceBoard = (pieceNumber) => {
-    // Insert number here
     setPieceBoard(new PieceBoard(pieceNumber));
-    pieceBoard.spawnPiece();
   };
 
   const contextData = {

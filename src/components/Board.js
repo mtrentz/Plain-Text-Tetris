@@ -3,26 +3,26 @@ import GameContext from "../contexts/GameContext";
 import TimeContext from "../contexts/TimeContext";
 
 const Board = () => {
-  const { gameBoard, score, gameOver } = useContext(GameContext);
+  const { mergedBoard, score, gameOver } = useContext(GameContext);
   const { counter } = useContext(TimeContext);
 
   let table = "";
 
   // Cria o separador de linha com o mesmo numero das colunas no board
-  let separator = "+" + "---+".repeat(gameBoard[0].length) + "\n";
+  let separator = "+" + "---+".repeat(mergedBoard[0].length) + "\n";
 
   // TODO: Usar SPAN pra fazer as cores...
   table += separator;
-  for (let i = 0; i < gameBoard.length; i++) {
-    for (let j = 0; j < gameBoard[i].length; j++) {
-      let element = gameBoard[i][j] ? "#" : "-";
+  for (let i = 0; i < mergedBoard.length; i++) {
+    for (let j = 0; j < mergedBoard[i].length; j++) {
+      let element = mergedBoard[i][j] ? "#" : "-";
       table += `| ${element} `;
     }
     table += `|\n${separator}`;
   }
 
   // Game Over Table
-  let extraSpace = gameBoard[0].length - "Game Over".length;
+  let extraSpace = mergedBoard[0].length - "Game Over".length;
   let spaceAddSide;
   let spaceAddMiddle;
   if (extraSpace % 2 == 0) {
@@ -39,10 +39,10 @@ const Board = () => {
     "| O | V | E | R " +
     "| - ".repeat(spaceAddSide) +
     "|";
-  let emptyLine = "| - ".repeat(gameBoard[0].length) + "|";
+  let emptyLine = "| - ".repeat(mergedBoard[0].length) + "|";
   let gameOverTable = "";
   gameOverTable += separator;
-  for (let i = 0; i < gameBoard.length; i++) {
+  for (let i = 0; i < mergedBoard.length; i++) {
     if (i % 2 == 0) {
       gameOverTable += gameOverLine + "\n";
     } else {

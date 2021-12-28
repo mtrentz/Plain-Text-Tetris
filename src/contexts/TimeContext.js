@@ -7,14 +7,14 @@ export default TimeContext;
 
 export const TimeProvider = ({ children }) => {
   const [counter, setCounter] = useState(0);
-  const [speed, setSpeed] = useState(settings.speed);
+  const [speed, setSpeed] = useState(settings.normal_speed);
 
   const setFast = () => {
-    setSpeed(settings.sped_up_speed);
+    setSpeed(settings.fast_speed);
   };
 
   const setNormal = () => {
-    setSpeed(settings.speed);
+    setSpeed(settings.normal_speed);
   };
 
   useEffect(() => {

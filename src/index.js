@@ -4,19 +4,19 @@ import "./index.css";
 import App from "./App";
 import { GameProvider } from "./contexts/GameContext";
 import { TimeProvider } from "./contexts/TimeContext";
-import { PieceProvider } from "./contexts/PieceContext";
-import { BoardProvider } from "./contexts/BoardContext";
+import { PieceBoardProvider } from "./contexts/PieceBoardContext";
+import { GameBoardProvider } from "./contexts/GameBoardContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <TimeProvider>
-      <PieceProvider>
-        <BoardProvider>
+      <PieceBoardProvider>
+        <GameBoardProvider>
           <GameProvider>
             <App />
           </GameProvider>
-        </BoardProvider>
-      </PieceProvider>
+        </GameBoardProvider>
+      </PieceBoardProvider>
     </TimeProvider>
   </React.StrictMode>,
   document.getElementById("root")

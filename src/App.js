@@ -9,9 +9,17 @@ function App() {
   const { handleKeyPress, handleKeyRelease, handleKeyDown } = useContext(GameContext);
 
   return (
-    <button className="bg-gray-600 w-full h-full cursor-auto" onKeyDown={handleKeyPress} onKeyUp={handleKeyRelease}>
-      <NextPieceMenu />
-      <ScoreMenu />
+    <button
+      className="bg-gray-600 w-full h-full cursor-auto pt-4"
+      onKeyDown={handleKeyPress}
+      onKeyUp={handleKeyRelease}
+    >
+      <div className="w-full flex justify-center self-center">
+        <div className="flex">
+          <NextPieceMenu />
+          <ScoreMenu />
+        </div>
+      </div>
       <OptionsMenu />
       <Board />
     </button>

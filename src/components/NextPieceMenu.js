@@ -35,7 +35,7 @@ const NextPieceMenu = () => {
   }
 
   return (
-    <pre className="whitespace-pre-wrap leading-4 tracking-normal h-32 md:tracking-wider">
+    <pre className="whitespace-pre-wrap leading-4 tracking-normal h-28 w-48 md:tracking-wider">
       <p>Next Piece in Line</p>
       {arrayChars.map((char, index) =>
         pieceNumbers.includes(char) ? (

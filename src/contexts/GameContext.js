@@ -117,14 +117,14 @@ export const GameProvider = ({ children }) => {
   };
 
   const startNewGame = () => {
+    clearGameBoard();
     createNewPieceBoard(generatePieceNumber());
     setNextPieceNumber(generatePieceNumber());
-    clearGameBoard();
 
     setPieceLifeSpan(0);
     setScore(0);
-    setGameOver(false);
     resumeGame(false);
+    setGameOver(false);
   };
 
   const { pieceBoard, createNewPieceBoard } = useContext(PieceBoardContext);

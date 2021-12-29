@@ -116,8 +116,19 @@ export const GameProvider = ({ children }) => {
     return number;
   };
 
+  const startNewGame = () => {
+    createNewPieceBoard(generatePieceNumber());
+    setNextPieceNumber(generatePieceNumber());
+    clearGameBoard();
+
+    setPieceLifeSpan(0);
+    setScore(0);
+    setGameOver(false);
+    resumeGame(false);
+  };
+
   const { pieceBoard, createNewPieceBoard } = useContext(PieceBoardContext);
-  const { gameBoard } = useContext(GameBoardContext);
+  const { gameBoard, clearGameBoard } = useContext(GameBoardContext);
   const { counter, speed, setFast, setNormal, forceFrameSkip, pauseGame, resumeGame, gamePaused } =
     useContext(TimeContext);
 
@@ -216,6 +227,7 @@ export const GameProvider = ({ children }) => {
     score,
     gameOver,
     nextPieceNumber,
+    startNewGame,
   };
 
   return <GameContext.Provider value={contextData}>{children}</GameContext.Provider>;

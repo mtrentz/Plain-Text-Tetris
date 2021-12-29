@@ -44,6 +44,7 @@ export const TimeProvider = ({ children }) => {
     setFast,
     setNormal,
     forceFrameSkip,
+    gamePaused,
     pauseGame,
     resumeGame,
   };

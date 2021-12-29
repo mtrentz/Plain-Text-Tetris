@@ -40,19 +40,23 @@ export const GameProvider = ({ children }) => {
   };
 
   const movePieceRight = () => {
-    if (touchOtherPieceHorizontally(gameBoard, pieceBoard)) {
-      return;
+    if (!gamePaused) {
+      if (touchOtherPieceHorizontally(gameBoard, pieceBoard)) {
+        return;
+      }
+      pieceBoard.moveRight();
+      updateMergedBoard(pieceBoard.board, gameBoard.board);
     }
-    pieceBoard.moveRight();
-    updateMergedBoard(pieceBoard.board, gameBoard.board);
   };
 
   const movePieceLeft = () => {
-    if (touchOtherPieceHorizontally(gameBoard, pieceBoard)) {
-      return;
+    if (!gamePaused) {
+      if (touchOtherPieceHorizontally(gameBoard, pieceBoard)) {
+        return;
+      }
+      pieceBoard.moveLeft();
+      updateMergedBoard(pieceBoard.board, gameBoard.board);
     }
-    pieceBoard.moveLeft();
-    updateMergedBoard(pieceBoard.board, gameBoard.board);
   };
 
   const pieceCanRotate = () => {
@@ -80,7 +84,7 @@ export const GameProvider = ({ children }) => {
   };
 
   const rotatePiece = () => {
-    if (pieceCanRotate()) {
+    if (!gamePaused && pieceCanRotate()) {
       pieceBoard.rotate();
       updateMergedBoard(pieceBoard.board, gameBoard.board);
     }
@@ -114,7 +118,8 @@ export const GameProvider = ({ children }) => {
 
   const { pieceBoard, createNewPieceBoard } = useContext(PieceBoardContext);
   const { gameBoard } = useContext(GameBoardContext);
-  const { counter, speed, setFast, setNormal, forceFrameSkip, pauseGame, resumeGame } = useContext(TimeContext);
+  const { counter, speed, setFast, setNormal, forceFrameSkip, pauseGame, resumeGame, gamePaused } =
+    useContext(TimeContext);
 
   const [mergedBoard, setMergedBoard] = useState(mergeBoards(pieceBoard.board, gameBoard.board));
   const [nextPieceNumber, setNextPieceNumber] = useState(generatePieceNumber());
@@ -174,7 +179,7 @@ export const GameProvider = ({ children }) => {
         setFast();
         // This is used to make sure that the piece moves down as soon as
         // "move down" is trigerred, and makes the game feel more responsive
-        if (!frameSkipped) {
+        if (!frameSkipped && !gamePaused) {
           setFrameSkipped(true);
           forceFrameSkip();
         }

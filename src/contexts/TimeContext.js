@@ -7,6 +7,7 @@ export default TimeContext;
 
 export const TimeProvider = ({ children }) => {
   const [counter, setCounter] = useState(0);
+  const [gamePaused, setGamePaused] = useState(false);
   const [speed, setSpeed] = useState(settings.normal_speed);
 
   const setFast = () => {
@@ -21,10 +22,21 @@ export const TimeProvider = ({ children }) => {
     setCounter(counter + 1);
   };
 
+  const pauseGame = () => {
+    setGamePaused(true);
+  };
+
+  const resumeGame = () => {
+    setGamePaused(false);
+  };
+
   useEffect(() => {
+    if (gamePaused) {
+      return;
+    }
     const timer = setInterval(() => setCounter(counter + 1), speed);
     return () => clearInterval(timer);
-  }, [counter]);
+  }, [counter, gamePaused]);
 
   const contextData = {
     counter,
@@ -32,9 +44,9 @@ export const TimeProvider = ({ children }) => {
     setFast,
     setNormal,
     forceFrameSkip,
+    pauseGame,
+    resumeGame,
   };
 
-  return (
-    <TimeContext.Provider value={contextData}>{children}</TimeContext.Provider>
-  );
+  return <TimeContext.Provider value={contextData}>{children}</TimeContext.Provider>;
 };

@@ -114,7 +114,7 @@ export const GameProvider = ({ children }) => {
 
   const { pieceBoard, createNewPieceBoard } = useContext(PieceBoardContext);
   const { gameBoard } = useContext(GameBoardContext);
-  const { counter, speed, setFast, setNormal, forceFrameSkip } = useContext(TimeContext);
+  const { counter, speed, setFast, setNormal, forceFrameSkip, pauseGame, resumeGame } = useContext(TimeContext);
 
   const [mergedBoard, setMergedBoard] = useState(mergeBoards(pieceBoard.board, gameBoard.board));
   const [nextPieceNumber, setNextPieceNumber] = useState(generatePieceNumber());
@@ -141,6 +141,7 @@ export const GameProvider = ({ children }) => {
       // If the the lifespan of the piece is zero, means it "died" as it spawned. So its game over.
       if (pieceLifeSpan === 0) {
         setGameOver(true);
+        pauseGame();
       }
 
       // Create new piece

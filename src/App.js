@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import GameContext from "./contexts/GameContext";
 import Board from "./components/Board";
+import NextPieceMenu from "./components/NextPieceMenu";
 
 function App() {
   const { handleKeyPress, handleKeyRelease, handleKeyDown } =
@@ -12,6 +13,7 @@ function App() {
       onKeyDown={handleKeyPress}
       onKeyUp={handleKeyRelease}
     >
+      <NextPieceMenu />
       <Board />
     </button>
   );

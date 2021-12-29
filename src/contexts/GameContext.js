@@ -61,31 +61,17 @@ export const GameProvider = ({ children }) => {
     }
 
     // Corta a peça do seu board, na sua posição atual
-    let croppedPiece = pieceBoard.cropBoard(
-      pieceBoard.x1,
-      pieceBoard.y1,
-      pieceBoard.x2,
-      pieceBoard.y2
-    );
+    let croppedPiece = pieceBoard.cropBoard(pieceBoard.x1, pieceBoard.y1, pieceBoard.x2, pieceBoard.y2);
 
     // Aplica a rotação na peça atual
     let rotated = pieceBoard.rotateMatrix(croppedPiece);
 
     // Pega a mesma posição da peça porém no gameBoard
-    let croppedBoard = gameBoard.cropBoard(
-      pieceBoard.x1,
-      pieceBoard.y1,
-      pieceBoard.x2,
-      pieceBoard.y2
-    );
+    let croppedBoard = gameBoard.cropBoard(pieceBoard.x1, pieceBoard.y1, pieceBoard.x2, pieceBoard.y2);
 
     for (let j = 0; j < rotated.length; j++) {
       for (let i = 0; i < rotated.length; i++) {
-        if (
-          (croppedBoard[i][j] > 0 && rotated[i][j] > 0) ||
-          pieceBoard.x1 < 0 ||
-          pieceBoard.x2 >= settings.columns
-        ) {
+        if ((croppedBoard[i][j] > 0 && rotated[i][j] > 0) || pieceBoard.x1 < 0 || pieceBoard.x2 >= settings.columns) {
           return false;
         }
       }
@@ -128,11 +114,10 @@ export const GameProvider = ({ children }) => {
 
   const { pieceBoard, createNewPieceBoard } = useContext(PieceBoardContext);
   const { gameBoard } = useContext(GameBoardContext);
-  const { counter, speed, setFast, setNormal, forceFrameSkip } =
-    useContext(TimeContext);
-  const [mergedBoard, setMergedBoard] = useState(
-    mergeBoards(pieceBoard.board, gameBoard.board)
-  );
+  const { counter, speed, setFast, setNormal, forceFrameSkip } = useContext(TimeContext);
+
+  const [mergedBoard, setMergedBoard] = useState(mergeBoards(pieceBoard.board, gameBoard.board));
+  const [nextPieceNumber, setNextPieceNumber] = useState(generatePieceNumber());
   const [score, setScore] = useState(0);
   const [pieceLifeSpan, setPieceLifeSpan] = useState(0);
   const [gameOver, setGameOver] = useState(false);
@@ -140,10 +125,7 @@ export const GameProvider = ({ children }) => {
 
   // Runs every "frame"
   useEffect(() => {
-    if (
-      pieceBoard.touchFloor() ||
-      touchOtherPieceVertically(gameBoard, pieceBoard)
-    ) {
+    if (pieceBoard.touchFloor() || touchOtherPieceVertically(gameBoard, pieceBoard)) {
       // Put piece into actual board
       gameBoard.consume(pieceBoard);
 
@@ -162,7 +144,8 @@ export const GameProvider = ({ children }) => {
       }
 
       // Create new piece
-      createNewPieceBoard(generatePieceNumber());
+      createNewPieceBoard(nextPieceNumber);
+      setNextPieceNumber(generatePieceNumber());
       // Set piece lifespan to 0
       setPieceLifeSpan(0);
     } else {
@@ -226,9 +209,8 @@ export const GameProvider = ({ children }) => {
     handleKeyRelease,
     score,
     gameOver,
+    nextPieceNumber,
   };
 
-  return (
-    <GameContext.Provider value={contextData}>{children}</GameContext.Provider>
-  );
+  return <GameContext.Provider value={contextData}>{children}</GameContext.Provider>;
 };

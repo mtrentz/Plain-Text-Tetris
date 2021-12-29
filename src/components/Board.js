@@ -12,7 +12,7 @@ const Board = () => {
   return (
     <div>
       <p> Score - {score}</p>
-      <pre className="whitespace-pre-wrap leading-4 tracking-wider">
+      <pre className="whitespace-pre-wrap leading-4 tracking-normal md:tracking-wider">
         {gameOver ? (
           <GameOverTable mergedBoard={mergedBoard} />
         ) : (

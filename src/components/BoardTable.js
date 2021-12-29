@@ -1,33 +1,19 @@
 import React from "react";
 import pieces from "../tetris/Pieces";
+import CreateAsciiMatrix from "../helpers/CreateAsciiMatrix";
 
 const BoardTable = ({ mergedBoard }) => {
-  let asciiTable = "";
+  let asciiMatrix = CreateAsciiMatrix(mergedBoard);
 
-  // Cria o separador de linha com o mesmo numero das colunas no board
-  let separator = "+" + "---+".repeat(mergedBoard[0].length) + "\n";
-
-  asciiTable += separator;
-  for (let i = 0; i < mergedBoard.length; i++) {
-    for (let j = 0; j < mergedBoard[i].length; j++) {
-      let element = mergedBoard[i][j] ? mergedBoard[i][j] : "-";
-      asciiTable += `| ${element} `;
-    }
-    asciiTable += `|\n${separator}`;
-  }
-
-  //   Cria um array de cada caractere na tabela ascii
-  let arrayChars = [...asciiTable];
+  //   Transforma a string em ascii da matriz em um array 1d com cada caractere (mantem \n pra newline)
+  let arrayChars = [...asciiMatrix];
   let pieceNumbers = Object.keys(pieces);
 
   return (
     <>
       {arrayChars.map((char, index) =>
         pieceNumbers.includes(char) ? (
-          <span
-            key={index}
-            style={{ color: pieces[char].color, fontWeight: "bold" }}
-          >
+          <span key={index} style={{ color: pieces[char].color, fontWeight: "bold" }}>
             #
           </span>
         ) : (

@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import GameContext from "../contexts/GameContext";
 import TimeContext from "../contexts/TimeContext";
+import AudioContext from "../contexts/AudioContext";
 
 const OptionsMenu = () => {
   const { gameOver, startNewGame } = useContext(GameContext);
   const { pauseGame, resumeGame, gamePaused } = useContext(TimeContext);
+  const { toggleAudio, playing } = useContext(AudioContext);
 
   const [triedToRestart, setTriedToRestart] = useState(false);
 
@@ -36,7 +38,7 @@ const OptionsMenu = () => {
     <pre className="flex flex-row justify-center gap-5">
       <button onClick={gamePaused ? resumeGame : pauseGame}>{gamePaused ? "Resume Game" : "Pause Game"}</button>
       <button onClick={handleRestart}>{triedToRestart ? "Are you sure?" : "Restart"}</button>
-      <button>Toggle Audio</button>
+      <button onClick={toggleAudio}>{playing ? "Mute Song" : "Play Song"}</button>
     </pre>
   );
 };

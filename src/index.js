@@ -6,18 +6,21 @@ import { GameProvider } from "./contexts/GameContext";
 import { TimeProvider } from "./contexts/TimeContext";
 import { PieceBoardProvider } from "./contexts/PieceBoardContext";
 import { GameBoardProvider } from "./contexts/GameBoardContext";
+import { AudioProvider } from "./contexts/AudioContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <TimeProvider>
-      <PieceBoardProvider>
-        <GameBoardProvider>
-          <GameProvider>
-            <App />
-          </GameProvider>
-        </GameBoardProvider>
-      </PieceBoardProvider>
-    </TimeProvider>
+    <AudioProvider>
+      <TimeProvider>
+        <PieceBoardProvider>
+          <GameBoardProvider>
+            <GameProvider>
+              <App />
+            </GameProvider>
+          </GameBoardProvider>
+        </PieceBoardProvider>
+      </TimeProvider>
+    </AudioProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -38,9 +38,11 @@ const GameOverTable = ({ mergedBoard }) => {
 
   return (
     <>
-      {arrayChars.map((char) =>
+      {arrayChars.map((char, index) =>
         gameOverChars.includes(char) ? (
-          <span className="text-red-700 font-bold">{char}</span>
+          <span key={index} className="text-red-700 font-bold">
+            {char}
+          </span>
         ) : (
           char
         )

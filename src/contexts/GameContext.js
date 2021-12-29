@@ -95,7 +95,6 @@ export const GameProvider = ({ children }) => {
 
   const rotatePiece = () => {
     if (pieceCanRotate()) {
-      console.log("here");
       pieceBoard.rotate();
       updateMergedBoard(pieceBoard.board, gameBoard.board);
     }

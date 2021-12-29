@@ -22,9 +22,12 @@ const BoardTable = ({ mergedBoard }) => {
 
   return (
     <>
-      {arrayChars.map((char) =>
+      {arrayChars.map((char, index) =>
         pieceNumbers.includes(char) ? (
-          <span style={{ color: pieces[char].color, fontWeight: "bold" }}>
+          <span
+            key={index}
+            style={{ color: pieces[char].color, fontWeight: "bold" }}
+          >
             #
           </span>
         ) : (

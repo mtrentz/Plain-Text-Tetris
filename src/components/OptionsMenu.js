@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import GameContext from "../contexts/GameContext";
 import TimeContext from "../contexts/TimeContext";
 
@@ -7,6 +7,13 @@ const OptionsMenu = () => {
   const { pauseGame, resumeGame, gamePaused } = useContext(TimeContext);
 
   const [triedToRestart, setTriedToRestart] = useState(false);
+
+  // If game is over and restart button on "are you sure?", then change button back to Restart
+  useEffect(() => {
+    if (gameOver && triedToRestart) {
+      setTriedToRestart(false);
+    }
+  }, [gameOver]);
 
   // Extra check if user tried to restart while still alive. If so, has to click twice.
   const handleRestart = () => {

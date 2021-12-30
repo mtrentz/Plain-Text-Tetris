@@ -8,7 +8,7 @@ const Board = () => {
 
   return (
     <div>
-      <pre className="whitespace-pre-wrap leading-4 tracking-normal md:tracking-wider">
+      <pre className="text-black whitespace-pre-wrap leading-4 tracking-normal md:tracking-wider">
         {gameOver ? <GameOverTable mergedBoard={mergedBoard} /> : <BoardTable mergedBoard={mergedBoard} />}
       </pre>
     </div>

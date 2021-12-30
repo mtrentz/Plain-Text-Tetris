@@ -12,7 +12,7 @@ function App() {
 
   return (
     <button
-      className="bg-gray-600 w-full h-full cursor-auto pt-4"
+      className="bg-gray-800 text-gray-200 w-full h-full cursor-auto overflow-auto"
       onKeyDown={handleKeyPress}
       onKeyUp={handleKeyRelease}
     >

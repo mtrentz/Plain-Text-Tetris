@@ -1,5 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import TimeContext from "./TimeContext";
+import PieceOrderContext from "./PieceOrderContext";
 import PieceBoardContext from "./PieceBoardContext";
 import GameBoardContext from "./GameBoardContext";
 import pieces from "../tetris/Pieces";
@@ -111,15 +112,10 @@ export const GameProvider = ({ children }) => {
     setMergedBoard(mergeBoards(pieceBoard, gameBoard));
   };
 
-  const generatePieceNumber = () => {
-    let number = Math.floor(1 + Math.random() * Object.keys(pieces).length);
-    return number;
-  };
-
   const startNewGame = () => {
     clearGameBoard();
-    createNewPieceBoard(generatePieceNumber());
-    setNextPieceNumber(generatePieceNumber());
+    createNewPieceBoard(popFirstPieceNumber());
+    setNextPieceNumber(popFirstPieceNumber());
 
     setPieceLifeSpan(0);
     setScore(0);
@@ -127,13 +123,14 @@ export const GameProvider = ({ children }) => {
     setGameOver(false);
   };
 
+  const { popFirstPieceNumber } = useContext(PieceOrderContext);
   const { pieceBoard, createNewPieceBoard } = useContext(PieceBoardContext);
   const { gameBoard, clearGameBoard } = useContext(GameBoardContext);
   const { counter, speed, setFast, setNormal, forceFrameSkip, pauseGame, resumeGame, gamePaused } =
     useContext(TimeContext);
 
   const [mergedBoard, setMergedBoard] = useState(mergeBoards(pieceBoard.board, gameBoard.board));
-  const [nextPieceNumber, setNextPieceNumber] = useState(generatePieceNumber());
+  const [nextPieceNumber, setNextPieceNumber] = useState(popFirstPieceNumber());
   const [score, setScore] = useState(0);
   const [pieceLifeSpan, setPieceLifeSpan] = useState(0);
   const [gameOver, setGameOver] = useState(false);
@@ -162,7 +159,7 @@ export const GameProvider = ({ children }) => {
 
       // Create new piece
       createNewPieceBoard(nextPieceNumber);
-      setNextPieceNumber(generatePieceNumber());
+      setNextPieceNumber(popFirstPieceNumber());
       // Set piece lifespan to 0
       setPieceLifeSpan(0);
     } else {

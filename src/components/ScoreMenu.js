@@ -5,7 +5,7 @@ const ScoreMenu = () => {
   const { score } = useContext(GameContext);
 
   return (
-    <pre className="w-1/2">
+    <pre className="w-1/2 lg:w-full">
       <p>Score</p>
       <p>{score}</p>
     </pre>

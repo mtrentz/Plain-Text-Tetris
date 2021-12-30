@@ -19,15 +19,23 @@ function App() {
     >
       <Header />
       <InfoMenu />
-      <div className="w-full flex justify-center self-center">
-        <div className="flex">
-          <NextPieceMenu />
-          <ScoreMenu />
+      <div className="flex justify-center">
+        <div className="lg:flex lg:flex-row-reverse">
+          {/* Next Piece and Score */}
+          <div className="w-full flex justify-center self-center lg:h-full">
+            <div className="flex lg:flex-col lg:h-full lg:justify-start lg:gap-5 lg:pt-1 lg:pl-2">
+              <NextPieceMenu />
+              <ScoreMenu />
+            </div>
+          </div>
+          {/* The game + restart menu*/}
+          <div>
+            <OptionsMenu />
+            <Board />
+            <MobileControls />
+          </div>
         </div>
       </div>
-      <OptionsMenu />
-      <Board />
-      <MobileControls />
     </button>
   );
 }

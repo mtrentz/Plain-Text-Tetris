@@ -6,6 +6,7 @@ import ScoreMenu from "./components/ScoreMenu";
 import OptionsMenu from "./components/OptionsMenu";
 import Header from "./components/Header";
 import InfoMenu from "./components/InfoMenu";
+import AboutMeMenu from "./components/AboutMeMenu";
 import MobileControls from "./components/MobileControls";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
           </div>
         </div>
       </div>
+      <AboutMeMenu />
     </button>
   );
 }

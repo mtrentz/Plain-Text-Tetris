@@ -4,6 +4,7 @@ import Board from "./components/Board";
 import NextPieceMenu from "./components/NextPieceMenu";
 import ScoreMenu from "./components/ScoreMenu";
 import OptionsMenu from "./components/OptionsMenu";
+import Header from "./components/Header";
 
 function App() {
   const { handleKeyPress, handleKeyRelease, handleKeyDown } = useContext(GameContext);
@@ -14,6 +15,7 @@ function App() {
       onKeyDown={handleKeyPress}
       onKeyUp={handleKeyRelease}
     >
+      <Header />
       <div className="w-full flex justify-center self-center">
         <div className="flex">
           <NextPieceMenu />

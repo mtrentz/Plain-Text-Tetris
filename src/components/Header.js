@@ -29,10 +29,10 @@ ___________     __         .__
 `;
 
   return (
-    <div className="tracking-tighter md:pr-8">
-      <pre className="text-red-600 whitespace-pre-wrap leading-4 tracking-tight -mb-8 md:pr-24">{plain}</pre>
+    <div className="tracking-tighter md:pr-8 lg:flex lg:flex-row lg:justify-center">
+      <pre className="text-red-600 whitespace-pre-wrap leading-4 tracking-tight -mb-8 ">{plain}</pre>
       <pre className="text-emerald-400 whitespace-pre-wrap leading-4 tracking-tight -mb-8">{text}</pre>
-      <pre className="text-yellow-600 whitespace-pre-wrap leading-4 tracking-tight mb-4 md:pl-36">{tetris}</pre>
+      <pre className="text-yellow-600 whitespace-pre-wrap leading-4 tracking-tight mb-4 ">{tetris}</pre>
     </div>
   );
 };

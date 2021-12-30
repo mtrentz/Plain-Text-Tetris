@@ -6,6 +6,7 @@ import ScoreMenu from "./components/ScoreMenu";
 import OptionsMenu from "./components/OptionsMenu";
 import Header from "./components/Header";
 import InfoMenu from "./components/InfoMenu";
+import MobileControls from "./components/MobileControls";
 
 function App() {
   const { handleKeyPress, handleKeyRelease, handleKeyDown } = useContext(GameContext);
@@ -26,6 +27,7 @@ function App() {
       </div>
       <OptionsMenu />
       <Board />
+      <MobileControls />
     </button>
   );
 }

@@ -228,6 +228,9 @@ export const GameProvider = ({ children }) => {
     gameOver,
     nextPieceNumber,
     startNewGame,
+    movePieceLeft,
+    movePieceRight,
+    rotatePiece,
   };
 
   return <GameContext.Provider value={contextData}>{children}</GameContext.Provider>;

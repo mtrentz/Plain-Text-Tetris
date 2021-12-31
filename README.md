@@ -4,7 +4,7 @@ Play a simple plain text version of tetris, made only with ascii caracters.
 
 You can try it live on: https://tetris.mtrentz.com.br
 
-# How to run it?
+# Running locally
 
 Install modules and run locally with npm
 ```

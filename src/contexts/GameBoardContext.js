@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import GameBoard from "../tetris/GameBoard";
 
 const GameBoardContext = createContext();
@@ -18,5 +18,9 @@ export const GameBoardProvider = ({ children }) => {
     clearGameBoard,
   };
 
-  return <GameBoardContext.Provider value={contextData}>{children}</GameBoardContext.Provider>;
+  return (
+    <GameBoardContext.Provider value={contextData}>
+      {children}
+    </GameBoardContext.Provider>
+  );
 };

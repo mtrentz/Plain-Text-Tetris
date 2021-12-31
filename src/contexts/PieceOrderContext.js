@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import React, { createContext, useState } from "react";
 import pieces from "../tetris/Pieces";
 
 const PieceOrderContext = createContext();
@@ -6,15 +6,15 @@ const PieceOrderContext = createContext();
 export default PieceOrderContext;
 
 export const PieceOrderProvider = ({ children }) => {
-  function shuffleArray(array) {
+  const shuffleArray = (arr) => {
     // From this post https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-    for (var i = array.length - 1; i > 0; i--) {
+    for (var i = arr.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
-      var temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
+      var temp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = temp;
     }
-  }
+  };
 
   const generateRandomPieceArray = () => {
     //   Creates an array of pieces randomly sorted. Containing 1 of each piece in the game
@@ -24,22 +24,39 @@ export const PieceOrderProvider = ({ children }) => {
   };
 
   const fillQueue = () => {
-    // This adds a randomly sorted array of pieces (1 of each) at the end of the current queue
-    // The queue always increases in increments of the amount of pieces in the game.
-    let toAdd = generateRandomPieceArray();
-    setPiecesQueue([...piecesQueue, ...toAdd]);
+    // Check if queue is half empty. If so, fill it.
+    // The usual queue size is twice the amount of pieces in the game.
+    if (piecesQueue.length < amountOfGamePieces) {
+      // This adds a randomly sorted array of pieces (1 of each) at the end of the current queue
+      // The queue always increases in increments of the amount of pieces in the game.
+      let toAdd = generateRandomPieceArray();
+      setPiecesQueue([...piecesQueue, ...toAdd]);
+    }
   };
 
   const startingQueue = () => {
     // Generates the first queue of pieces.
     let arr1 = generateRandomPieceArray();
     let arr2 = generateRandomPieceArray();
+
     return [...arr1, ...arr2];
+  };
+
+  const popTwoFirstPieceNumbers = () => {
+    // This is for the first render of the game only.
+    let first = piecesQueue[0];
+    let second = piecesQueue[1];
+    setPiecesQueue(piecesQueue.slice(2));
+    fillQueue();
+
+    return [first, second];
   };
 
   const popFirstPieceNumber = () => {
     let first = piecesQueue[0];
     setPiecesQueue(piecesQueue.slice(1));
+    fillQueue();
+
     return first;
   };
 
@@ -48,20 +65,18 @@ export const PieceOrderProvider = ({ children }) => {
   // Amount of pieces in the game
   const amountOfGamePieces = pieceNumbers.length;
 
+  // This is used for the first piece only. Since the first render can't call popFirstPieceMember.
+  // let startingPiece = 0;
   const [piecesQueue, setPiecesQueue] = useState(startingQueue());
-
-  useEffect(() => {
-    // Checks everytime the queue changes if is half empty.
-    // If so, fill it.
-
-    // The usual queue size is twice the amount of pieces in the game.
-    if (piecesQueue.length < amountOfGamePieces) {
-      fillQueue();
-    }
-  }, [piecesQueue]);
 
   const contextData = {
     popFirstPieceNumber,
+    popTwoFirstPieceNumbers,
   };
-  return <PieceOrderContext.Provider value={contextData}>{children}</PieceOrderContext.Provider>;
+
+  return (
+    <PieceOrderContext.Provider value={contextData}>
+      {children}
+    </PieceOrderContext.Provider>
+  );
 };

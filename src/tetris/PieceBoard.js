@@ -11,11 +11,26 @@ class PieceBoard extends Board {
     this.y1 = 0;
     this.x2 = 0;
     this.y2 = 0;
-    this.pieceNumber = pieceNumber;
-    this.piece = pieces[this.pieceNumber];
+    if (!pieceNumber) {
+      // Empty piece
+      this.pieceNumber = 0;
+      this.piece = {
+        name: "?",
+        color: "#9f0096",
+        matrix: [
+          [0, 0, 0],
+          [0, 0, 0],
+          [0, 0, 0],
+        ],
+        rotatesTwice: false,
+      };
+    } else {
+      this.pieceNumber = pieceNumber;
+      this.piece = pieces[this.pieceNumber];
+      // Special case for pieces that rotate diferently
+    }
 
-    // Special case for pieces that rotate diferently
-    this.rotatesTwice = pieces[this.pieceNumber].rotatesTwice;
+    this.rotatesTwice = this.piece.rotatesTwice;
     // If this is marked, the piece will go back to its original configuration
     this.rotateBackToOriginal = false;
 

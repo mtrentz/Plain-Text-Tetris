@@ -6,7 +6,20 @@ import CreateAsciiMatrix from "../helpers/CreateAsciiMatrix";
 const NextPieceMenu = () => {
   const { nextPieceNumber } = useContext(GameContext);
 
-  let pieceMatrix = pieces[nextPieceNumber].matrix;
+  let pieceMatrix;
+  let pieceName;
+  let pieceColor;
+
+  if (!nextPieceNumber) {
+    // Empty piece for an empty first render
+    pieceMatrix = new Array(3).fill(0).map(() => Array(3).fill(0));
+    pieceName = "?";
+    pieceColor = "white";
+  } else {
+    pieceMatrix = pieces[nextPieceNumber].matrix;
+    pieceName = pieces[nextPieceNumber].name;
+    pieceColor = pieces[nextPieceNumber].color;
+  }
   let asciiMatrix = CreateAsciiMatrix(pieceMatrix);
 
   let arrayChars = [...asciiMatrix];
@@ -16,7 +29,7 @@ const NextPieceMenu = () => {
   let moveUpPieceOnce = ["I"];
 
   // Gambiarra pra desenhar algumas peças mais pra cima e ficar mais bonito
-  if (moveUpPieceTwice.includes(pieces[nextPieceNumber].name)) {
+  if (moveUpPieceTwice.includes(pieceName)) {
     let indexToRemove = arrayChars.findIndex((val, index) => val === "\n");
     if (indexToRemove > -1) {
       arrayChars.splice(indexToRemove, 1);
@@ -27,7 +40,7 @@ const NextPieceMenu = () => {
     }
   }
 
-  if (moveUpPieceOnce.includes(pieces[nextPieceNumber].name)) {
+  if (moveUpPieceOnce.includes(pieceName)) {
     let indexToRemove = arrayChars.findIndex((val, index) => val === "\n");
     if (indexToRemove > -1) {
       arrayChars.splice(indexToRemove, 1);
@@ -39,7 +52,7 @@ const NextPieceMenu = () => {
       <p>Next Piece in Line</p>
       {arrayChars.map((char, index) =>
         pieceNumbers.includes(char) ? (
-          <span key={index} style={{ color: pieces[nextPieceNumber].color, fontWeight: "bold" }}>
+          <span key={index} style={{ color: pieceColor, fontWeight: "bold" }}>
             #
           </span>
         ) : char === "\n" ? (

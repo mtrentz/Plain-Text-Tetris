@@ -6,7 +6,7 @@ const ScoreMenu = () => {
 
   return (
     <pre className="w-1/2 lg:w-full">
-      <p>Score</p>
+      <p>Lines</p>
       <p>{score}</p>
     </pre>
   );

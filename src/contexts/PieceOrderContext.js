@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import pieces from "../tetris/Pieces";
 
 const PieceOrderContext = createContext();
@@ -34,20 +34,20 @@ export const PieceOrderProvider = ({ children }) => {
     }
   };
 
-  const startingQueue = () => {
+  const startQueue = () => {
+    // This starts the queue. The first two elements
+    // are removed and return, since they are used for the first rendering.
+
     // Generates the first queue of pieces.
     let arr1 = generateRandomPieceArray();
     let arr2 = generateRandomPieceArray();
 
-    return [...arr1, ...arr2];
-  };
+    let queue = [...arr1, ...arr2];
 
-  const popTwoFirstPieceNumbers = () => {
-    // This is for the first render of the game only.
-    let first = piecesQueue[0];
-    let second = piecesQueue[1];
-    setPiecesQueue(piecesQueue.slice(2));
-    fillQueue();
+    let first = queue[0];
+    let second = queue[1];
+
+    setPiecesQueue(queue.slice(2));
 
     return [first, second];
   };
@@ -67,11 +67,11 @@ export const PieceOrderProvider = ({ children }) => {
 
   // This is used for the first piece only. Since the first render can't call popFirstPieceMember.
   // let startingPiece = 0;
-  const [piecesQueue, setPiecesQueue] = useState(startingQueue());
+  const [piecesQueue, setPiecesQueue] = useState();
 
   const contextData = {
     popFirstPieceNumber,
-    popTwoFirstPieceNumbers,
+    startQueue,
   };
 
   return (

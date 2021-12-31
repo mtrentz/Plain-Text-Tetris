@@ -127,8 +127,10 @@ export const GameProvider = ({ children }) => {
 
   const startNewGame = () => {
     clearGameBoard();
-    createNewPieceBoard(popFirstPieceNumber());
-    setNextPieceNumber(popFirstPieceNumber());
+
+    let [first, second] = startQueue();
+    createNewPieceBoard(first);
+    setNextPieceNumber(second);
 
     setPieceLifeSpan(0);
     setScore(0);
@@ -136,13 +138,11 @@ export const GameProvider = ({ children }) => {
     setGameOver(false);
   };
 
-  const { popFirstPieceNumber, popTwoFirstPieceNumbers } =
-    useContext(PieceOrderContext);
+  const { popFirstPieceNumber, startQueue } = useContext(PieceOrderContext);
   const { pieceBoard, createNewPieceBoard } = useContext(PieceBoardContext);
   const { gameBoard, clearGameBoard } = useContext(GameBoardContext);
   const {
     counter,
-    speed,
     setFast,
     setNormal,
     forceFrameSkip,
@@ -160,10 +160,7 @@ export const GameProvider = ({ children }) => {
 
   // Runs once as setup
   useEffect(() => {
-    console.log("here");
-    let [first, second] = popTwoFirstPieceNumbers();
-    createNewPieceBoard(first);
-    setNextPieceNumber(second);
+    startNewGame();
     updateMergedBoard(pieceBoard.board, gameBoard.board);
   }, []);
 

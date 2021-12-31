@@ -15,5 +15,5 @@ npm start
 Or build and run the docker image:
 ```
 docker build -t plain-text-tetris .
-docker run -p 3000:3000 plain-text-tetris
+docker run -p 3000:80 plain-text-tetris
 ```
